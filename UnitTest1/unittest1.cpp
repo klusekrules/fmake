@@ -4,16 +4,16 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTest1
+namespace fmake
 {		
-	TEST_CLASS(UnitTest1)
+	TEST_CLASS(TestResolver)
 	{
 	public:
 		
-		TEST_METHOD(TestMethod1)
+		TEST_METHOD(TestAddParam)
 		{
 			Resolver r;
-			r.addParam("name", "value");
+			Assert::IsTrue(r.addParam("name", "value"));
 		}
 
 	};
