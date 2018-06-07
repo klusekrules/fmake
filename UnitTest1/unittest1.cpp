@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include "../src/Resolver.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -11,7 +12,8 @@ namespace UnitTest1
 		
 		TEST_METHOD(TestMethod1)
 		{
-			// TODO: Your test code here
+			Resolver r;
+			r.addParam("name", "value");
 		}
 
 	};

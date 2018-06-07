@@ -7,6 +7,14 @@
 
 #include "targetver.h"
 
+#include <iostream>
+#include <string>
+#include <regex>
+#include <vector>
+#include <set>
+#include <map>
+#include <functional>
+#include <algorithm>
 // Headers for CppUnitTest
 #include "CppUnitTest.h"
 
