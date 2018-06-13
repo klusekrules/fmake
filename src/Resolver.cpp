@@ -1,11 +1,51 @@
 #include "stdafx.h"
 #include "Resolver.h"
 
+bool Resolver::addParam(const std::string& name, const std::string& value) {
+	auto iter = find(params.begin(), params.end(), Param(name, ""));
+	if (iter != params.end())
+		return false;
+	params.emplace_back(Param(name, value));
+	return true;
+}
+
 Param& Resolver::getParam(std::string key) {
-	auto iter = params.find(key);
-	if (iter == params.end())
-		throw std::exception("Find no defined params!");
-	return params.at(key);
+	auto iter = find(params.begin(), params.end(), Param(key, ""));
+	if (iter == params.end()) {
+		if (askAboutParam) {
+			createParam(key);
+			return params.back();
+		}
+		else {
+			throw std::exception("Find no defined params!");
+		}
+	}
+	return *iter;
+}
+
+bool Resolver::createParam(std::string key) {
+	std::string value;
+	std::cout << "Parameter " << key << ":";
+	std::getline(std::cin, value);
+	return addParam(key, value);
+}
+
+std::set<std::string>&& Resolver::resolveDependecies(const std::string &p) {
+	std::smatch n;
+	std::set<std::string> dependecies;
+
+	std::string text = p;
+	while (regex_search(text, n, detParReg)) {
+		std::smatch m2;
+		std::string sufix(n.str());
+		if (regex_search(sufix, m2, parNamReg)) {
+			std::string s = m2.str();
+			dependecies.emplace(std::move(getParam(s).name)); // Get or create
+		}
+		text = n.suffix();
+	}
+
+	return std::move(dependecies);
 }
 
 bool Resolver::resolveParams() {
@@ -13,21 +53,7 @@ bool Resolver::resolveParams() {
 	Tree lvl;
 
 	for (auto& p : params) {
-		std::smatch n;
-		std::set<std::string> dependecies;
-
-		std::string text = p.second.value;
-		while (regex_search(text, n, detParReg)) {
-			std::smatch m2;
-			std::string sufix(n.str());
-			if (regex_search(sufix, m2, parNamReg)) {
-				std::string s = m2.str();
-				dependecies.emplace(move(s));
-			}
-			text = n.suffix();
-		}
-
-		mapa.emplace(make_pair(p.first, Element(dependecies, p.first, 0)));
+		mapa.emplace(make_pair(p.name, Element(resolveDependecies(p.value), p.name, 0)));
 	}
 
 	int maxDeep = 0;
