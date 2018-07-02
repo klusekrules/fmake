@@ -8,6 +8,9 @@ class Resolver {
 	const std::regex detParReg = std::regex(DETECT_PARAM);
 	const std::regex parNamReg = std::regex(PARAM_NAME);
 
+	std::ostream &out = std::cout;
+	std::istream &in = std::cin;
+
 	std::list<Param> params;
 	bool askAboutParam = true;
 
@@ -47,6 +50,8 @@ class Resolver {
 
 public:
 	Resolver() = default;
+
+	Resolver(std::ostream &out, std::istream &in);
 
 	Resolver(const Resolver&) = default;
 

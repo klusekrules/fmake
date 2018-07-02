@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "Resolver.h"
 
+Resolver::Resolver(std::ostream & out, std::istream & in)
+	: out(out), in(in)
+{
+}
+
 bool Resolver::addParam(const std::string& name, const std::string& value) {
 	auto iter = find(params.begin(), params.end(), Param(name, ""));
 	if (iter != params.end())
@@ -25,8 +30,8 @@ Param& Resolver::getParam(std::string key) {
 
 bool Resolver::createParam(std::string key) {
 	std::string value;
-	std::cout << "Parameter " << key << ":";
-	std::getline(std::cin, value);
+	out << "Parameter " << key << ":";
+	std::getline(in, value);
 	return addParam(key, value);
 }
 

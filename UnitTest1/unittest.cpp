@@ -16,5 +16,21 @@ namespace fmake
 			Assert::IsTrue(r.addParam("name", "value"));
 		}
 
+		TEST_METHOD(TestGetParam)
+		{
+			Resolver r;
+			Assert::IsTrue(r.addParam("name", "value"));
+			Assert::AreEqual(r.getParam("name").name, std::string("name"));
+			Assert::AreEqual(r.getParam("name").value, std::string("value"));
+		}
+
+		TEST_METHOD(TestCreateAndGetParam)
+		{
+			std::stringstream i;
+			i << "value\n";
+			Resolver r(std::cout, i);
+			Assert::AreEqual(r.getParam("name").name, std::string("name"));
+			Assert::AreEqual(r.getParam("name").value, std::string("value"));
+		}
 	};
 }

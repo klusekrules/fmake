@@ -16,6 +16,7 @@
 #include <map>
 #include <functional>
 #include <algorithm>
+#include <sstream>
 // Headers for CppUnitTest
 #include "CppUnitTest.h"
 
