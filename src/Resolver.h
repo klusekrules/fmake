@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 #include "Param.h"
 
 class Resolver {
@@ -7,12 +8,20 @@ class Resolver {
 	const std::regex detParReg = std::regex(DETECT_PARAM);
 	const std::regex parNamReg = std::regex(PARAM_NAME);
 
-	std::map<std::string, Param> params;
+	std::ostream &out = std::cout;
+	std::istream &in = std::cin;
+
+	std::list<Param> params;
+	bool askAboutParam = true;
 
 	class Element;
 
 	typedef std::map < int, std::vector< Element* > > Tree;
 	typedef std::map < std::string, Element > Elements;
+
+	bool createParam(std::string key);
+
+	std::set<std::string>&& resolveDependecies(const std::string &);
 
 	class Element {
 		std::set<std::string> depNode;
@@ -42,6 +51,8 @@ class Resolver {
 public:
 	Resolver() = default;
 
+	Resolver(std::ostream &out, std::istream &in);
+
 	Resolver(const Resolver&) = default;
 
 	Resolver(Resolver&&) = default;
@@ -52,13 +63,7 @@ public:
 
 	Resolver& operator=(Resolver &&) = default;
 
-	bool addParam(const std::string& name, const std::string& value) {
-		auto iter = params.find(name);
-		if (iter != params.end())
-			return false;
-		params.emplace(name, Param(name, value));
-		return true;
-	}
+	bool addParam(const std::string&, const std::string&);
 
 	Param& getParam(std::string key);
 

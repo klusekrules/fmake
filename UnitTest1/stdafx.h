@@ -11,10 +11,12 @@
 #include <string>
 #include <regex>
 #include <vector>
+#include <list>
 #include <set>
 #include <map>
 #include <functional>
 #include <algorithm>
+#include <sstream>
 // Headers for CppUnitTest
 #include "CppUnitTest.h"
 

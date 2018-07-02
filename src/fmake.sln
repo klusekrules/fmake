@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fmake", "fmake.vcxproj", "{6E7D30F4-11D8-4F08-B63C-EE4993E39B97}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest1", "..\UnitTest1\UnitTest1.vcxproj", "{529CC3F0-F7FA-4671-A215-340E31858921}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6E7D30F4-11D8-4F08-B63C-EE4993E39B97} = {6E7D30F4-11D8-4F08-B63C-EE4993E39B97}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
