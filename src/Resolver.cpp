@@ -45,7 +45,7 @@ std::set<std::string> Resolver::resolveDependecies(const std::string &p) {
 		std::string sufix(n.str());
 		if (regex_search(sufix, m2, parNamReg)) {
 			std::string s = m2.str();
-			dependecies.emplace(std::move(getParam(s).name)); // Get or create
+			dependecies.emplace(getParam(s).name); // Get or create
 		}
 		text = n.suffix();
 	}
