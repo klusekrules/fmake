@@ -1,6 +1,7 @@
 #pragma once
 #include "Args.h"
 #include "Resolver.h"
+#include <fstream>
 
 class Application {
 private:
@@ -8,8 +9,12 @@ private:
 	Resolver resolver;
 	std::string infileName;
 	std::string outfileName;
+	std::ifstream inStream;
+	std::ofstream outStream;
 
 	void initArgs();
+
+	void afterProcessArgs();
 	
 public:
 
@@ -17,6 +22,7 @@ public:
 	{
 		initArgs();
 		arguments.process(argv, argc);
+		afterProcessArgs();
 	}
 
 	int process();

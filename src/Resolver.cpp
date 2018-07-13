@@ -102,3 +102,38 @@ int Resolver::Element::deep(Resolver::Elements& m, Tree &t) {
 	t[dep].push_back(this);
 	return dep;
 }
+
+void Resolver::resolveStream(std::istream& in, std::ostream& out) {
+	std::smatch n;
+	std::string str;
+	bool found;
+
+	do {
+		std::getline(in, str);
+		found = false;
+		while (regex_search(str, n, detParReg)) {
+			found = true;
+			out << n.prefix();
+			std::smatch m2;
+			std::string param(n.str());
+			if (regex_search(param, m2, parNamReg)) {
+				std::string s = m2.str();
+				auto& p = getParam(s);
+				out << p.value;
+			}
+			else {
+				out << param;
+			}
+			str = n.suffix();
+		}
+
+		if (!found) {
+			out << str;
+		}
+
+		if (in.good()) {
+			out << std::endl;
+		}
+	} while (in.good());
+
+}
