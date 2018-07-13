@@ -35,7 +35,7 @@ bool Resolver::createParam(std::string key) {
 	return addParam(key, value);
 }
 
-std::set<std::string>&& Resolver::resolveDependecies(const std::string &p) {
+std::set<std::string> Resolver::resolveDependecies(const std::string &p) {
 	std::smatch n;
 	std::set<std::string> dependecies;
 
@@ -58,7 +58,7 @@ bool Resolver::resolveParams() {
 	Tree lvl;
 
 	for (auto& p : params) {
-		mapa.emplace(make_pair(p.name, Element(resolveDependecies(p.value), p.name, 0)));
+		mapa.emplace(make_pair(p.name, Element(std::move(resolveDependecies(p.value)), p.name, 0)));
 	}
 
 	int maxDeep = 0;

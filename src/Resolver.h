@@ -21,7 +21,7 @@ class Resolver {
 
 	bool createParam(std::string key);
 
-	std::set<std::string>&& resolveDependecies(const std::string &);
+	std::set<std::string> resolveDependecies(const std::string &);
 
 	class Element {
 		std::set<std::string> depNode;
@@ -29,8 +29,8 @@ class Resolver {
 		int dep;
 	public:
 
-		Element(const std::set<std::string>& n, std::string name, int dep)
-			: depNode(n), name(name), dep(dep)
+		Element(std::set<std::string>&& n, std::string name, int dep)
+			: depNode(std::move(n)), name(name), dep(dep)
 		{}
 
 		const std::string& getName() const {
