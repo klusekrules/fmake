@@ -68,4 +68,6 @@ public:
 	Param& getParam(std::string key);
 
 	bool resolveParams();
+
+	void resolveStream(std::istream&, std::ostream&);
 };

@@ -33,6 +33,13 @@ void Application::initArgs() {
 	});
 }
 
+void Application::afterProcessArgs() {
+	if (!infileName.empty() && !outfileName.empty()) {
+		inStream.open(infileName, std::ios::in);
+		outStream.open(outfileName, std::ios::trunc);
+	}
+}
+
 int Application::process() {
 	resolver.addParam("imie", "Daniel");
 	resolver.addParam("powitanie", "Witaj {{ imie }}");
@@ -41,6 +48,7 @@ int Application::process() {
 	resolver.addParam("c", "1");
 
 	resolver.resolveParams();
+	resolver.resolveStream(inStream, outStream);
 
 	return 0;
 }

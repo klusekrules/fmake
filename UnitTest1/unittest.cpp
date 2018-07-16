@@ -32,5 +32,28 @@ namespace fmake
 			Assert::AreEqual(r.getParam("name").name, std::string("name"));
 			Assert::AreEqual(r.getParam("name").value, std::string("value"));
 		}
+
+		TEST_METHOD(TestResolveParams)
+		{
+			Resolver r;
+			Assert::IsTrue(r.addParam("name", "nam"));
+			Assert::IsTrue(r.addParam("surname", "sur"));
+			Assert::IsTrue(r.addParam("Mr", "{{name}} {{surname}}"));
+			Assert::IsTrue(r.resolveParams());
+			Assert::AreEqual(r.getParam("Mr").value, std::string("nam sur"));
+		}
+
+		TEST_METHOD(TestResolveStream)
+		{
+			Resolver r;
+			std::stringstream i;
+			std::stringstream o;
+			i << "My name is {{name}} {{surname}}\n";
+			Assert::IsTrue(r.addParam("name", "nam"));
+			Assert::IsTrue(r.addParam("surname", "sur"));
+			Assert::IsTrue(r.resolveParams());
+			r.resolveStream(i, o);
+			Assert::AreEqual(o.str(), std::string("My name is nam sur\n"));
+		}
 	};
 }
