@@ -31,6 +31,20 @@ void Application::initArgs() {
 		}
 		return false;
 	});
+
+	arguments.addParam("-p", 1, [&](std::vector<char *> l)->bool {
+		if (l.size() == 0)
+			return false;
+		auto wsk = l.begin();
+		if (*wsk) {
+			std::string nazwa(*wsk);
+			if (!nazwa.empty()) {
+				paramsFile = nazwa;
+				return true;
+			}
+		}
+		return false;
+	});
 }
 
 void Application::afterProcessArgs() {
@@ -38,17 +52,23 @@ void Application::afterProcessArgs() {
 		inStream.open(infileName, std::ios::in);
 		outStream.open(outfileName, std::ios::trunc);
 	}
+
+	if (!paramsFile.empty()) {
+		std::ifstream pStr(paramsFile, std::ios::in);
+		std::string line;
+
+		do {
+			std::getline(pStr, line);
+			auto pos = line.find_first_of('=');
+			if (pos != std::string::npos) {
+				resolver.addParam(line.substr(0, pos), line.substr(pos + 1));
+			}
+		} while (pStr.good());
+	}
 }
 
 int Application::process() {
-	resolver.addParam("imie", "Daniel");
-	resolver.addParam("powitanie", "Witaj {{ imie }}");
-	resolver.addParam("a", "{{ c }}i");
-	resolver.addParam("b", "{{ c }}{{ a}}");
-	resolver.addParam("c", "1");
-
 	resolver.resolveParams();
 	resolver.resolveStream(inStream, outStream);
-
 	return 0;
 }

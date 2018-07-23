@@ -9,6 +9,7 @@ private:
 	Resolver resolver;
 	std::string infileName;
 	std::string outfileName;
+	std::string paramsFile;
 	std::ifstream inStream;
 	std::ofstream outStream;
 

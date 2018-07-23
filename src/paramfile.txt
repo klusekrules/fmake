@@ -1,0 +1,5 @@
+imie=Daniel
+powitanie=Witaj {{ imie }}
+a={{ c }}i
+b={{ c }}{{ a}}
+c=1
